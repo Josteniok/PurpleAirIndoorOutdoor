@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Josteniok/PurpleAirIndoorOutdoor/issues"
   },
-  "homepage": "https://github.com/Josteniok/PurpleAirIndoorOutdoor#readme"
+  "homepage": "https://github.com/Josteniok/PurpleAirIndoorOutdoor#readme",
+  "devDependencies": {
+    "netlify-cli": "^6.9.17"
+  }
 }
