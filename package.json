@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Josteniok/PurpleAirIndoorOutdoor#readme",
   "devDependencies": {
+    "eslint": "^7.32.0",
     "netlify-cli": "^6.9.17"
   }
 }
