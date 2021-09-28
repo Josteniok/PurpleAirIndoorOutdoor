@@ -16,8 +16,7 @@ function getAqi(sensorid) {
     let customHeader = new Headers();
     customHeader.append('X-API-Key', purpleAirApiReadKey);
     let initObject = {
-        method: 'GET',
-        headers: customHeader,
+        method: 'GET', headers: customHeader,
     };
     fetch("https://api.purpleair.com/v1/sensors/"+sensorid, initObject)
     .then(function (response) {
