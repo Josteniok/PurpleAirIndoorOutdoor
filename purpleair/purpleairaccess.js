@@ -20,7 +20,7 @@ function getAqi(sensorid) {
             document.getElementById("demo").innerHTML = sensorData;
         }
     }
-    xhttp.setRequestHeader('X-API-Key', purpleAirApiReadKey);
     xhttp.open("GET", "https://api.purpleair.com/v1/sensors/"+sensorid, true);
+    xhttp.setRequestHeader('X-API-Key', purpleAirApiReadKey);
     xhttp.send();
 }
