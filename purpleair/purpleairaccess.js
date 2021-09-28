@@ -17,7 +17,7 @@ function getAqi(sensorid) {
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             const sensorData = JSON.parse(this.responseText);
-            document.getElementById("demo").innerHTML = sensorData.sensor["pm2.5"];
+            document.getElementById("demo").innerHTML = String(sensorData.sensor["pm2.5"]);
         }
     }
     xhttp.open("GET", "https://api.purpleair.com/v1/sensors/"+sensorid, true);
