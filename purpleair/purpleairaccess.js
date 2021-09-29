@@ -1,6 +1,5 @@
 'use strict';
 
-let myVar = setInterval(getAQ, 1000);
 const purpleAirApiReadKey = "ADB7BE2F-17CD-11EC-BAD6-42010A800017";
 const outdoorsensorid = "121389";
 const indoorsensorid = "125241";
