@@ -3,8 +3,8 @@
 const purpleAirApiReadKey = "ADB7BE2F-17CD-11EC-BAD6-42010A800017";
 const outdoorsensorid = "121389";
 const indoorsensorid = "125241";
-let indoorAQI = setInterval(getAqi, 2000, indoorsensorid, 'indooraqi');
-let outdoorAQI = setInterval(getAqi, 2000, outdoorsensorid, 'outdooraqi');
+let indoorAQI = setInterval(getAqi, 20000, indoorsensorid, 'indooraqi');
+// let outdoorAQI = setInterval(getAqi, 2000, outdoorsensorid, 'outdooraqi');
 
 function getAqi(sensorid, docid) {
     let customHeader = new Headers();
