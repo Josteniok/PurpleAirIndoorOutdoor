@@ -21,7 +21,7 @@ function getAqi(sensorid, docid) {
     fetch("https://api.purpleair.com/v1/sensors/"+sensorid, initObject)
     .then(response => response.json())
     .then(function (sensorData) {
-        document.getElementById(docid).innerHTML = String(sensorData.sensor["pm2.5"]);
+        document.getElementById(docid).innerHTML = String(sensorData.sensor["pm2.5"]) + "\nTesting";
     })
     .catch(function (err) {
         console.log("ERROR: ", err);
