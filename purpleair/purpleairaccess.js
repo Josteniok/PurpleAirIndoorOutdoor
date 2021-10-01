@@ -18,7 +18,7 @@ function getAqi(sensorid, docid, gridid) {
         let pm25data = sensorData.sensor["pm2.5"];
         let aqi = calcAQI(pm25data);
         document.getElementById(docid).innerHTML = String(aqi.toFixed(0));
-        document.getElementById(gridid).style.backgroundColor = 'maroon';
+        document.getElementById(gridid).style.backgroundColor = 'purple';
     })
     .catch(function (err) {
         console.log("ERROR: ", err);
