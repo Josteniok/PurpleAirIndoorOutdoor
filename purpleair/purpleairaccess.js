@@ -40,6 +40,8 @@ function createDetailsTable(sensorData) {
     let row2 = document.createElement('tr');
     let row2data1 = document.createElement('td');
     row2data1.innerHTML = "row 2 test";
+    row1.appendChild(row1data1);
+    row2.appendChild(row2data1);
     detailstablebody.appendChild(row1);
     detailstablebody.appendChild(row2);
 
