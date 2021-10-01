@@ -23,7 +23,7 @@ function getAqi(sensorid, docid, gridid, detailid) {
         let aqi = calcAQI(pm25data);
         document.getElementById(docid).innerHTML = String(aqi.toFixed(0));
         document.getElementById(gridid).style.backgroundColor = getBGColorForAQI(aqi);
-        document.getElementById('body').appendChild(createDetailsTable(sensorData));
+        document.getElementById(detailid).appendChild(createDetailsTable(sensorData));
     })
     .catch(function (err) {
         console.log("ERROR: ", err);
@@ -40,6 +40,8 @@ function createDetailsTable(sensorData) {
     let row2 = document.createElement('tr');
     let row2data1 = document.createElement('td');
     row2data1.innerHTML = "row 2 test";
+    detailstablebody.appendChild(row1);
+    detailstablebody.appendChild(row2);
 
     detailstable.appendChild(detailstablebody);
 
