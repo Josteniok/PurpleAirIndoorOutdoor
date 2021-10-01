@@ -16,8 +16,7 @@ function getAqi(sensorid, docid) {
     .then(response => response.json())
     .then(function (sensorData) {
         let pm25data = sensorData.sensor["pm2.5"];
-        document.getElementsByClassName(docid).innerHTML = String(calcAQI(pm25data).toFixed(0));
-        // document.getElementById(docid).innerHTML = String(calcAQI(pm25data).toFixed(0));
+        document.getElementById(docid).innerHTML = String(calcAQI(pm25data).toFixed(0));
     })
     .catch(function (err) {
         console.log("ERROR: ", err);
