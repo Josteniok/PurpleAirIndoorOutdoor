@@ -1,11 +1,22 @@
 <!DOCTYPE html>
   <html>
+      <head>
+          <style>
+              .grid-container {
+                  display: grid;
+                  grid-template-columns: auto auto;
+                  background-color: #2196F3;
+                  padding: 10px;
+              }
+          </style>
+      </head>
       <body>
-          <p>Indoor AQI:</p>
-          <p id="indooraqi"></p>
-          <p>Outdoor AQI:</p>
-          <p id="outdooraqi"></p>
-          
+          <divj class = "grid-container">
+              <div class = "indooraqi">
+              </div>
+              <div class = "outdooraqi">
+              </div>
+          </div>
           <script src="/purpleair/purpleairaccess.js">
           </script>
         </body>
