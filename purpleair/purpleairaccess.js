@@ -4,12 +4,13 @@ const purpleAirApiReadKey = "ADB7BE2F-17CD-11EC-BAD6-42010A800017";
 const outdoorsensorid = "121389";
 const indoorsensorid = "125241";
 // Initial pull
-getAqi(indoorsensorid, 'indooraqi', 'indoor-column');
-getAqi(outdoorsensorid, 'outdooraqi', 'outdoor-column');
-let indoorAQI = setInterval(getAqi, 2000, indoorsensorid, 'indooraqi', 'indoor-column');
-let outdoorAQI = setInterval(getAqi, 2000, outdoorsensorid, 'outdooraqi', 'outdoor-column');
+getAqi(indoorsensorid, 'indooraqi', 'indoor-column', 'indoordetails');
+getAqi(outdoorsensorid, 'outdooraqi', 'outdoor-column', 'outdoordetails');
+// Repeat pulls
+let indoorAQI = setInterval(getAqi, 2000, indoorsensorid, 'indooraqi', 'indoor-column', 'indoordetails');
+let outdoorAQI = setInterval(getAqi, 2000, outdoorsensorid, 'outdooraqi', 'outdoor-column', 'outdoordetails');
 
-function getAqi(sensorid, docid, gridid) {
+function getAqi(sensorid, docid, gridid, detailid) {
     let customHeader = new Headers();
     customHeader.append('X-API-Key', purpleAirApiReadKey);
     let initObject = {
@@ -22,6 +23,7 @@ function getAqi(sensorid, docid, gridid) {
         let aqi = calcAQI(pm25data);
         document.getElementById(docid).innerHTML = String(aqi.toFixed(0));
         document.getElementById(gridid).style.backgroundColor = getBGColorForAQI(aqi);
+        document.getElementById(detailid).innerHTML = "pm1.0 " + String(sensorData.sensor["pm1.0"]);
     })
     .catch(function (err) {
         console.log("ERROR: ", err);
