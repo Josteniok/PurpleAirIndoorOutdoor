@@ -6,7 +6,7 @@ const indoorsensorid = "125241";
 let indoorAQI = setInterval(getAqi, 2000, indoorsensorid, 'indooraqi');
 let outdoorAQI = setInterval(getAqi, 2000, outdoorsensorid, 'outdooraqi');
 
-function getAqi(sensorid, docid) {
+function getAqi(sensorid, docid, gridid) {
     let customHeader = new Headers();
     customHeader.append('X-API-Key', purpleAirApiReadKey);
     let initObject = {
@@ -16,7 +16,9 @@ function getAqi(sensorid, docid) {
     .then(response => response.json())
     .then(function (sensorData) {
         let pm25data = sensorData.sensor["pm2.5"];
-        document.getElementById(docid).innerHTML = String(calcAQI(pm25data).toFixed(0));
+        let aqi = calcAQI(pm25data);
+        document.getElementById(docid).innerHTML = String(aqi.toFixed(0));
+        document.getElementById(gridid).style.backgroundColor = getBGColorForAQI(aqi);
     })
     .catch(function (err) {
         console.log("ERROR: ", err);
@@ -72,4 +74,23 @@ function calcAQI(pm25) {
     }
     let aqi = ((aqhi - aqlo)/(bphi - bplo))*(pm25 - bplo) + aqlo;
     return aqi;
+}
+
+function getBGColorForAQI(aqi) {
+    switch (true) {
+        case (aqi <= 50):
+            return 'green';
+        case (aqi > 50 && aqi <= 100):
+            return 'yellow';
+        case (aqi > 100 && aqi <= 150):
+            return 'orange';
+        case (aqi > 150 && aqi <= 200):
+            return 'red';
+        case (aqi > 200 && aqi <= 300):
+            return 'purple';
+        case (aqi > 300):
+            return 'maroon';
+        default:
+            return 'green';
+    }
 }
