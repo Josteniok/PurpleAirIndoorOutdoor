@@ -70,6 +70,6 @@ function calcAQI(pm25) {
         default:
             break;
     }
-    let aqi = ((aqhi - aqlo)/(bphi - bplo))*(pm25_24hour - bplo) + aqlo;
+    let aqi = ((aqhi - aqlo)/(bphi - bplo))*(pm25 - bplo) + aqlo;
     return aqi;
 }
