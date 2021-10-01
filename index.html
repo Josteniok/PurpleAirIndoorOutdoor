@@ -19,26 +19,17 @@
                   font-size: 10vw;
                   text-align: center;
               }
-              .aqi-box {
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-              }
           </style>
       </head>
       <body>
           <div class = "grid-container">
               <div class = "grid-item" id = "indoor-column">
-                  <div class = "aqi-box">
-                    Indoor AQI
-                    <p id = "indooraqi"></p>
-                  </div>
+                  <p style="font-size:5vw">Indoor AQI</p>
+                  <p id = "indooraqi"></p>
               </div>
               <div class = "grid-item" id = "outdoor-column">
-                  <div class = "aqi-box">
-                    Outdoor AQI
-                    <p id = "outdooraqi"></p>
-                  </div>
+                  Outdoor AQI
+                  <p id = "outdooraqi"></p>
               </div>
           </div>
           <script src="/purpleair/purpleairaccess.js">
