@@ -8,14 +8,22 @@
                   background-color: #2196F3;
                   padding: 10px;
               }
+              .indoor-column {
+                  grid-column: 1;
+                  grid-row: 1;
+              }
+              .outdoor-column {
+                  grid-column: 2;
+                  grid-row: 1;
+              }
           </style>
       </head>
       <body>
           <divj class = "grid-container">
-              <div>
+              <div class = "indoor-column">
                   <p>Indoor AQI</p>
                   <p id = "indooraqi"></p>
-              <div>
+              <div class = "outdoor-column">
                   <p>Outdoor AQI</p>
                   <p id = "outdooraqi"></p>
               </div>
