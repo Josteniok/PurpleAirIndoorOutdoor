@@ -8,6 +8,13 @@
                   background-color: #2196F3;
                   padding: 10px;
               }
+              .grid-item {
+                  background-color: rgba(255, 255, 255, 0.8);
+                  border: 1px solid rgba(0, 0, 0, 0.8);
+                  padding: 20px;
+                  font-size: 30px;
+                  text-align: center;
+              }
               .indoor-column {
                   grid-column: 1 / 2;
                   grid-row: 1;
@@ -20,10 +27,10 @@
       </head>
       <body>
           <divj class = "grid-container">
-              <div class = "indoor-column">
+              <div class = "grid-item">
                   Indoor AQI
                   <p id = "indooraqi"></p>
-              <div class = "outdoor-column">
+              <div class = "grid-item">
                   Outdoor AQI
                   <p id = "outdooraqi"></p>
               </div>
