@@ -23,11 +23,27 @@ function getAqi(sensorid, docid, gridid, detailid) {
         let aqi = calcAQI(pm25data);
         document.getElementById(docid).innerHTML = String(aqi.toFixed(0));
         document.getElementById(gridid).style.backgroundColor = getBGColorForAQI(aqi);
-        document.getElementById(detailid).innerHTML = "pm1.0 " + String(sensorData.sensor["pm1.0"]);
+        document.getElementById(detailid).appendChild(createDetailsTable(sensorData));
     })
     .catch(function (err) {
         console.log("ERROR: ", err);
     });
+}
+
+function createDetailsTable(sensorData) {
+    let detailstable = document.createElement('table');
+    let detailstablebody = document.createElement('tbody');
+
+    let row1 = document.createElement('tr');
+    let row1data1 = document.createElement('td');
+    row1data1.innerHTML = "row 1 test";
+    let row2 = document.createElement('tr');
+    let row2data1 = document.createElement('td');
+    row2data1.innerHTML = "row 2 test";
+
+    detailstable.appendChild(detailstablebody);
+
+    return detailstable
 }
 
 function calcAQI(pm25) {
