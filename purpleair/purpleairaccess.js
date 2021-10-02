@@ -4,26 +4,35 @@ const purpleAirApiReadKey = "ADB7BE2F-17CD-11EC-BAD6-42010A800017";
 const outdoorsensorid = "121389";
 const indoorsensorid = "125241";
 // Initial pull
-getAqi(indoorsensorid, 'indooraqi', 'indoor-column', 'indoordetails');
-getAqi(outdoorsensorid, 'outdooraqi', 'outdoor-column', 'outdoordetails');
+getAqi(indoorsensorid, 'indoor');
+getAqi(outdoorsensorid, 'outdoor');
 // Repeat pulls
-let indoorAQI = setInterval(getAqi, 2000, indoorsensorid, 'indooraqi', 'indoor-column', 'indoordetails');
-let outdoorAQI = setInterval(getAqi, 2000, outdoorsensorid, 'outdooraqi', 'outdoor-column', 'outdoordetails');
+let indoorAQI = setInterval(getAqi, 2000, indoorsensorid, 'indoor');
+let outdoorAQI = setInterval(getAqi, 2000, outdoorsensorid, 'outdoor');
 
-function getAqi(sensorid, docid, gridid, detailid) {
+function getAqi(sensorid, location) {
     let customHeader = new Headers();
     customHeader.append('X-API-Key', purpleAirApiReadKey);
     let initObject = {
         method: 'GET', headers: customHeader,
     };
+    let docid = location + "aqi";
+    let gridid = location + "-column";
+    let pm1id = location + "pm1.0";
+    let pm25id = location + "pm2.5";
+    let pm10id = location + "pm10.0";
     fetch("https://api.purpleair.com/v1/sensors/"+sensorid, initObject)
     .then(response => response.json())
     .then(function (sensorData) {
+        let pm1data = sensorData.sensor["pm1.0"];
         let pm25data = sensorData.sensor["pm2.5"];
+        let pm10data = sensorData.sensor["pm10.0"];
         let aqi = calcAQI(pm25data);
         document.getElementById(docid).innerHTML = String(aqi.toFixed(0));
         document.getElementById(gridid).style.backgroundColor = getBGColorForAQI(aqi);
-        // document.getElementById(detailid).appendChild(createDetailsTable(sensorData));
+        document.getElementById(pm1id).innerHTML = String(pm1data);
+        document.getElementById(pm25id).innerHTML = String(pm25data);
+        document.getElementById(pm10id).innerHTML = String(pm10data);
     })
     .catch(function (err) {
         console.log("ERROR: ", err);
