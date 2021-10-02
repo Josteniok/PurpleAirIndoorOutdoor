@@ -39,26 +39,6 @@ function getAqi(sensorid, location) {
     });
 }
 
-function createDetailsTable(sensorData) {
-    let detailstable = document.createElement('table');
-    let detailstablebody = document.createElement('tbody');
-
-    let row1 = document.createElement('tr');
-    let row1data1 = document.createElement('td');
-    row1data1.innerHTML = "row 1 test";
-    let row2 = document.createElement('tr');
-    let row2data1 = document.createElement('td');
-    row2data1.innerHTML = "row 2 test";
-    row1.appendChild(row1data1);
-    row2.appendChild(row2data1);
-    detailstablebody.appendChild(row1);
-    detailstablebody.appendChild(row2);
-
-    detailstable.appendChild(detailstablebody);
-
-    return detailstable
-}
-
 function calcAQI(pm25) {
     let bphi = 12.0;
     let bplo = 0.0;
