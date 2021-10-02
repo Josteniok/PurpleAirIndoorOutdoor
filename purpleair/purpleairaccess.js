@@ -16,12 +16,14 @@ function getAqi(sensorid, location) {
     let initObject = {
         method: 'GET', headers: customHeader,
     };
+
     // DOM locations
     let docid = location + "aqi";
     let gridid = location + "-column";
     let pm1id = location + "pm1.0";
     let pm25id = location + "pm2.5";
     let pm10id = location + "pm10.0";
+    let datatimeid = location + "datatime";
 
     fetch("https://api.purpleair.com/v1/sensors/"+sensorid, initObject)
     .then(response => response.json())
@@ -31,6 +33,7 @@ function getAqi(sensorid, location) {
         let pm10data = sensorData.sensor["pm10.0"];
         let pm25_cf_1 = sensorData.sensor["pm2.5_cf_1"]
         let humidity = sensorData.sensor["humidity"];
+        let datatime = sensorData.data_time_stamp;
         let correctedpm25 = correctPM25(pm25_cf_1, humidity);
         let aqi = calcAQI(correctedpm25);
         document.getElementById(docid).innerHTML = String(aqi.toFixed(0));
@@ -38,6 +41,7 @@ function getAqi(sensorid, location) {
         document.getElementById(pm1id).innerHTML = String(pm1data);
         document.getElementById(pm25id).innerHTML = String(pm25data);
         document.getElementById(pm10id).innerHTML = String(pm10data);
+        document.getElementById(datatimeid).innerHTML = formattedTime(datatime);
     })
     .catch(function (err) {
         console.log("ERROR: ", err);
@@ -46,6 +50,12 @@ function getAqi(sensorid, location) {
 
 function correctPM25(pm25cf, humidity) {
     return ((0.52 * pm25cf) - (0.085 * humidity) + 5.71);
+}
+
+function formattedTime(unixtime) {
+    const milliseconds = unixtime * 1000;
+    const dateObject = new Date(milliseconds);
+    return dateObject.toLocaleString();
 }
 
 function calcAQI(pm25) {
