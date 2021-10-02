@@ -1,41 +1,45 @@
 'use strict';
 
 const purpleAirApiReadKey = "ADB7BE2F-17CD-11EC-BAD6-42010A800017";
-const outdoorsensorid = "121389";
-const indoorsensorid = "125241";
+const outdoorsensorindex = "121389";
+const indoorsensorindex = "125241";
+const sensorgroupid = "717";
 // Initial pull
-getAqi(indoorsensorid, 'indoor');
-getAqi(outdoorsensorid, 'outdoor');
+getAqi(sensorgroupid);
 // Repeat pulls
-let indoorAQI = setInterval(getAqi, 2000, indoorsensorid, 'indoor');
-let outdoorAQI = setInterval(getAqi, 2000, outdoorsensorid, 'outdoor');
+let indoorAQI = setInterval(getAqi, 2000, sensorgroupid);
 
-function getAqi(sensorid, location) {
+function getAqi(groupid) {
     let customHeader = new Headers();
     customHeader.append('X-API-Key', purpleAirApiReadKey);
     let initObject = {
         method: 'GET', headers: customHeader,
     };
 
-    // DOM locations
-    let docid = location + "aqi";
-    let gridid = location + "-column";
-    let pm1id = location + "pm1.0";
-    let pm25id = location + "pm2.5";
-    let pm10id = location + "pm10.0";
-    let datatimeid = location + "datatime";
+    let location = "indoor";
 
-    fetch("https://api.purpleair.com/v1/sensors/"+sensorid, initObject)
+    // DOM locations
+    const docid = location + "aqi";
+    const gridid = location + "-column";
+    const pm1id = location + "pm1.0";
+    const pm25id = location + "pm2.5";
+    const pm10id = location + "pm10.0";
+    const datatimeid = location + "datatime";
+
+    // Sensor fields
+    const sensorfields = "pm1.0,pm2.5,pm10.0,pm2.5_cf_1,humidity"
+
+    fetch("https://api.purpleair.com/v1/groups/"+groupid+"/members?fields="+sensorfields, initObject)
     .then(response => response.json())
     .then(function (sensorData) {
-        let pm1data = sensorData.sensor["pm1.0"];
-        let pm25data = sensorData.sensor["pm2.5"];
-        let pm10data = sensorData.sensor["pm10.0"];
-        let pm25_cf_1 = sensorData.sensor["pm2.5_cf_1"]
-        let humidity = sensorData.sensor["humidity"];
-        let datatime = sensorData.data_time_stamp;
-        let correctedpm25 = correctPM25(pm25_cf_1, humidity);
-        let aqi = calcAQI(correctedpm25);
+        const pm1data = sensorData.data[indoorsensorindex][0];
+        const pm25data = sensorData.sensor["pm2.5"];
+        const pm10data = sensorData.sensor["pm10.0"];
+        const pm25_cf_1 = sensorData.sensor["pm2.5_cf_1"]
+        const humidity = sensorData.sensor["humidity"];
+        const datatime = sensorData.data_time_stamp;
+        const correctedpm25 = correctPM25(pm25_cf_1, humidity);
+        const aqi = calcAQI(correctedpm25);
         document.getElementById(docid).innerHTML = String(aqi.toFixed(0));
         document.getElementById(gridid).style.backgroundColor = getBGColorForAQI(aqi);
         document.getElementById(pm1id).innerHTML = String(pm1data);
