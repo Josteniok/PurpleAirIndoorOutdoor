@@ -27,7 +27,8 @@ function getAqi(sensorid, location) {
         let pm1data = sensorData.sensor["pm1.0"];
         let pm25data = sensorData.sensor["pm2.5"];
         let pm10data = sensorData.sensor["pm10.0"];
-        let aqi = calcAQI(pm25data);
+        let pm25_10minutes = sensorData.sensor["stats"]["pm2.5_10minute"]
+        let aqi = calcAQI(pm25_10minutes);
         document.getElementById(docid).innerHTML = String(aqi.toFixed(0));
         document.getElementById(gridid).style.backgroundColor = getBGColorForAQI(aqi);
         document.getElementById(pm1id).innerHTML = String(pm1data);
