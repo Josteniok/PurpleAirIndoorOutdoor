@@ -16,19 +16,24 @@ function getAqi(sensorid, location) {
     let initObject = {
         method: 'GET', headers: customHeader,
     };
+    // DOM locations
     let docid = location + "aqi";
     let gridid = location + "-column";
     let pm1id = location + "pm1.0";
     let pm25id = location + "pm2.5";
     let pm10id = location + "pm10.0";
+
     fetch("https://api.purpleair.com/v1/sensors/"+sensorid, initObject)
     .then(response => response.json())
     .then(function (sensorData) {
         let pm1data = sensorData.sensor["pm1.0"];
         let pm25data = sensorData.sensor["pm2.5"];
         let pm10data = sensorData.sensor["pm10.0"];
-        let pm25_10minutes = sensorData.sensor["stats"]["pm2.5_10minute"]
-        let aqi = calcAQI(pm25_10minutes);
+        let pm25_10minutes = sensorData.sensor["stats"]["pm2.5_10minute"];
+        let pm25_cf_1 = sensorData.sensor["pm2.5_cf_1"]
+        let humidity = sensorData.sensor["humidity"];
+        let correctedpm25 = correctPM25(pm25_cf_1, humidity);
+        let aqi = calcAQI(correctedpm25);
         document.getElementById(docid).innerHTML = String(aqi.toFixed(0));
         document.getElementById(gridid).style.backgroundColor = getBGColorForAQI(aqi);
         document.getElementById(pm1id).innerHTML = String(pm1data);
@@ -38,6 +43,10 @@ function getAqi(sensorid, location) {
     .catch(function (err) {
         console.log("ERROR: ", err);
     });
+}
+
+function correctPM25(pm25cf, humidity) {
+    return ((0.52 * pm25cf) - (0.085 * humidity) + 5.71);
 }
 
 function calcAQI(pm25) {
