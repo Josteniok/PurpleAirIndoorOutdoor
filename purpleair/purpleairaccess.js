@@ -29,7 +29,6 @@ function getAqi(sensorid, location) {
         let pm1data = sensorData.sensor["pm1.0"];
         let pm25data = sensorData.sensor["pm2.5"];
         let pm10data = sensorData.sensor["pm10.0"];
-        let pm25_10minutes = sensorData.sensor["stats"]["pm2.5_10minute"];
         let pm25_cf_1 = sensorData.sensor["pm2.5_cf_1"]
         let humidity = sensorData.sensor["humidity"];
         let correctedpm25 = correctPM25(pm25_cf_1, humidity);
