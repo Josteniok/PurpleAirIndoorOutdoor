@@ -43,7 +43,7 @@ function getAqi(groupid) {
         const pm10id = location + "pm10.0";
         const datatimeid = location + "datatime";
 
-        const pm1data = sensorData.data[indoorsensorindex][0];
+        // const pm1data = sensorData.data[indoorsensorindex][0];
         const pm25data = sensorData.sensor["pm2.5"];
         const pm10data = sensorData.sensor["pm10.0"];
         const pm25_cf_1 = sensorData.sensor["pm2.5_cf_1"]
