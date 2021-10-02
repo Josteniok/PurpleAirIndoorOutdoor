@@ -16,7 +16,7 @@ function getDetails(sensorid, location) {
     fetch("https://api.purpleair.com/v1/sensors/"+sensorid, initObject)
     .then(response => response.json())
     .then(function (data) {
-        document.getElementById(docid).innerHTML = data;
+        document.getElementById(docid).innerHTML = JSON.stringify(data);
     })
     .catch(function (err) {
         console.log("ERROR: ", err);
