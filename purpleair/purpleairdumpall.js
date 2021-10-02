@@ -15,7 +15,10 @@ function getDetails(sensorid, location) {
     let docid = location + "details";
     fetch("https://api.purpleair.com/v1/sensors/"+sensorid, initObject)
     .then(function (response) {
-        document.getElementById(docid).innerHTML = String(response);
+        
+    })
+    .then(function (data) {
+        document.getElementById(docid).innerHTML = String(data);
     })
     .catch(function (err) {
         console.log("ERROR: ", err);
