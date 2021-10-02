@@ -18,13 +18,7 @@ function getAqi(groupid) {
 
     let location = "indoor";
 
-    // DOM locations
-    const docid = location + "aqi";
-    const gridid = location + "-column";
-    const pm1id = location + "pm1.0";
-    const pm25id = location + "pm2.5";
-    const pm10id = location + "pm10.0";
-    const datatimeid = location + "datatime";
+    
 
     // Sensor fields
     const sensorfields = "pm1.0,pm2.5,pm10.0,pm2.5_cf_1,humidity"
@@ -32,6 +26,23 @@ function getAqi(groupid) {
     fetch("https://api.purpleair.com/v1/groups/"+groupid+"/members?fields="+sensorfields, initObject)
     .then(response => response.json())
     .then(function (sensorData) {
+        sensorData.data.forEach((sensor) => {
+            if (sensor[0] == indoorsensorindex) {
+                location = "indoor";
+                let pm1data = sensor[1];
+            } else if (sensor[0] == outdoorsensorindex) {
+                location = "outdoor";
+            }
+        })
+
+        // DOM locations
+        const docid = location + "aqi";
+        const gridid = location + "-column";
+        const pm1id = location + "pm1.0";
+        const pm25id = location + "pm2.5";
+        const pm10id = location + "pm10.0";
+        const datatimeid = location + "datatime";
+
         const pm1data = sensorData.data[indoorsensorindex][0];
         const pm25data = sensorData.sensor["pm2.5"];
         const pm10data = sensorData.sensor["pm10.0"];
