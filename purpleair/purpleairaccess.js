@@ -4,6 +4,19 @@ const purpleAirApiReadKey = "ADB7BE2F-17CD-11EC-BAD6-42010A800017";
 const outdoorsensorindex = "121389";
 const indoorsensorindex = "125241";
 const sensorgroupid = "717";
+// Fields object
+const Fields = {
+    pm1: 'pm1.0',
+    pm1index: 1,
+    pm25: 'pm2.5',
+    pm25index: 2,
+    pm10: 'pm10.0',
+    pm10index: 3,
+    pm25cf: 'pm2.5_cf_1',
+    pm25cfindex: 4,
+    humidity: 'humidity',
+    humidityindex: 5
+};
 // Initial pull
 getAqi(sensorgroupid);
 // Repeat pulls
@@ -16,51 +29,49 @@ function getAqi(groupid) {
         method: 'GET', headers: customHeader,
     };
 
-    let location = "indoor";
-
-    
-
     // Sensor fields
-    const sensorfields = "pm1.0,pm2.5,pm10.0,pm2.5_cf_1,humidity"
+    const sensorfields = Fields.pm1 + ',' + Fields.pm25 + ',' + Fields.pm10 + ',' + Fields.pm25cf + ',' + Fields.humidity
 
     fetch("https://api.purpleair.com/v1/groups/"+groupid+"/members?fields="+sensorfields, initObject)
     .then(response => response.json())
     .then(function (sensorData) {
         sensorData.data.forEach((sensor) => {
             if (sensor[0] == indoorsensorindex) {
-                location = "indoor";
-                let pm1data = sensor[1];
+                injectSensorData("indoor", sensor, sensorData.data_time_stamp);
+                
             } else if (sensor[0] == outdoorsensorindex) {
-                location = "outdoor";
+                injectSensorData("outdoor", sensor, sensorData.data_time_stamp);
             }
         })
-
-        // DOM locations
-        const docid = location + "aqi";
-        const gridid = location + "-column";
-        const pm1id = location + "pm1.0";
-        const pm25id = location + "pm2.5";
-        const pm10id = location + "pm10.0";
-        const datatimeid = location + "datatime";
-
-        // const pm1data = sensorData.data[indoorsensorindex][0];
-        const pm25data = sensorData.sensor["pm2.5"];
-        const pm10data = sensorData.sensor["pm10.0"];
-        const pm25_cf_1 = sensorData.sensor["pm2.5_cf_1"]
-        const humidity = sensorData.sensor["humidity"];
-        const datatime = sensorData.data_time_stamp;
-        const correctedpm25 = correctPM25(pm25_cf_1, humidity);
-        const aqi = calcAQI(correctedpm25);
-        document.getElementById(docid).innerHTML = String(aqi.toFixed(0));
-        document.getElementById(gridid).style.backgroundColor = getBGColorForAQI(aqi);
-        document.getElementById(pm1id).innerHTML = String(pm1data);
-        document.getElementById(pm25id).innerHTML = String(pm25data);
-        document.getElementById(pm10id).innerHTML = String(pm10data);
-        document.getElementById(datatimeid).innerHTML = formattedTime(datatime);
     })
     .catch(function (err) {
         console.log("ERROR: ", err);
     });
+}
+
+function injectSensorData(location, sensorData, datatime) {
+    const pm1data = sensorData[Fields.pm1index];
+    const pm25data = sensorData[Fields.pm25index];
+    const pm10data = sensorData[Fields.pm10index];
+    const pm25_cf_1data = sensorData[Fields.pm25cfindex];
+    const humiditydata = sensorData[Fields.humidityindex];
+
+    // DOM locations
+    const docid = location + "aqi";
+    const gridid = location + "-column";
+    const pm1id = location + "pm1.0";
+    const pm25id = location + "pm2.5";
+    const pm10id = location + "pm10.0";
+    const datatimeid = location + "datatime";
+
+    const correctedpm25 = correctPM25(pm25_cf_1data, humiditydata);
+    const aqi = calcAQI(correctedpm25);
+    document.getElementById(docid).innerHTML = String(aqi.toFixed(0));
+    document.getElementById(gridid).style.backgroundColor = getBGColorForAQI(aqi);
+    document.getElementById(pm1id).innerHTML = String(pm1data);
+    document.getElementById(pm25id).innerHTML = String(pm25data);
+    document.getElementById(pm10id).innerHTML = String(pm10data);
+    document.getElementById(datatimeid).innerHTML = formattedTime(datatime);
 }
 
 function correctPM25(pm25cf, humidity) {
