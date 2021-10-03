@@ -15,7 +15,9 @@ const Fields = {
     pm25cf: 'pm2.5_cf_1',
     pm25cfindex: 4,
     humidity: 'humidity',
-    humidityindex: 5
+    humidityindex: 5,
+    lastseen: 'last_seen',
+    lastseenindex: 6
 };
 // Initial pull
 getAqi(sensorgroupid);
@@ -30,17 +32,21 @@ function getAqi(groupid) {
     };
 
     // Sensor fields
-    const sensorfields = Fields.pm1 + ',' + Fields.pm25 + ',' + Fields.pm10 + ',' + Fields.pm25cf + ',' + Fields.humidity
+    const sensorfields = Fields.pm1 
+        + ',' + Fields.pm25 
+        + ',' + Fields.pm10 
+        + ',' + Fields.pm25cf 
+        + ',' + Fields.humidity
+        + ',' + Fields.lastseen;
 
     fetch("https://api.purpleair.com/v1/groups/"+groupid+"/members?fields="+sensorfields, initObject)
     .then(response => response.json())
     .then(function (sensorData) {
         sensorData.data.forEach((sensor) => {
             if (sensor[0] == indoorsensorindex) {
-                injectSensorData("indoor", sensor, sensorData.data_time_stamp);
-                
+                injectSensorData("indoor", sensor);
             } else if (sensor[0] == outdoorsensorindex) {
-                injectSensorData("outdoor", sensor, sensorData.data_time_stamp);
+                injectSensorData("outdoor", sensor);
             }
         })
     })
@@ -49,12 +55,13 @@ function getAqi(groupid) {
     });
 }
 
-function injectSensorData(location, sensorData, datatime) {
+function injectSensorData(location, sensorData) {
     const pm1data = sensorData[Fields.pm1index];
     const pm25data = sensorData[Fields.pm25index];
     const pm10data = sensorData[Fields.pm10index];
     const pm25_cf_1data = sensorData[Fields.pm25cfindex];
     const humiditydata = sensorData[Fields.humidityindex];
+    const lastseendata = sensorData[Fields.lastseenindex];
 
     // DOM locations
     const docid = location + "aqi";
@@ -71,7 +78,7 @@ function injectSensorData(location, sensorData, datatime) {
     document.getElementById(pm1id).innerHTML = String(pm1data);
     document.getElementById(pm25id).innerHTML = String(pm25data);
     document.getElementById(pm10id).innerHTML = String(pm10data);
-    document.getElementById(datatimeid).innerHTML = formattedTime(datatime);
+    document.getElementById(datatimeid).innerHTML = formattedTime(lastseendata);
 }
 
 function correctPM25(pm25cf, humidity) {
