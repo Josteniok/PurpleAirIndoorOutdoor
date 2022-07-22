@@ -7,29 +7,17 @@ const sensorgroupid = "717";
 // Fields object
 const Fields = {
     pm1: 'pm1.0',
-    pm1index: 1,
     pm25: 'pm2.5',
-    pm25index: 2,
     pm10: 'pm10.0',
-    pm10index: 3,
     pm25cf: 'pm2.5_cf_1',
-    pm25cfindex: 4,
     humidity: 'humidity',
-    humidityindex: 5,
     lastseen: 'last_seen',
-    lastseenindex: 6,
     um03: '0.3_um_count',
-    um03index: 7,
     um05: '0.5_um_count',
-    um05index: 8,
     um1: '1.0_um_count',
-    um1index: 9,
     um25: '2.5_um_count',
-    um25index: 10,
     um5: '5.0_um_count',
-    um5index: 11,
-    um10: '10.0_um_count',
-    um10index: 12
+    um10: '10.0_um_count'
 };
 // Initial pull
 getAqi(sensorgroupid);
@@ -60,11 +48,12 @@ function getAqi(groupid) {
     fetch("https://api.purpleair.com/v1/groups/"+groupid+"/members?fields="+sensorfields, initObject)
     .then(response => response.json())
     .then(function (sensorData) {
+        let sensorDataFields = sensorData.fields;
         sensorData.data.forEach((sensor) => {
             if (sensor[0] == indoorsensorindex) {
-                injectSensorData("indoor", sensor);
+                injectSensorData("indoor", sensor, sensorDataFields);
             } else if (sensor[0] == outdoorsensorindex) {
-                injectSensorData("outdoor", sensor);
+                injectSensorData("outdoor", sensor, sensorDataFields);
             }
         })
     })
@@ -73,19 +62,19 @@ function getAqi(groupid) {
     });
 }
 
-function injectSensorData(location, sensorData) {
-    const pm1data = sensorData[Fields.pm1index];
-    const pm25data = sensorData[Fields.pm25index];
-    const pm10data = sensorData[Fields.pm10index];
-    const pm25_cf_1data = sensorData[Fields.pm25cfindex];
-    const humiditydata = sensorData[Fields.humidityindex];
-    const lastseendata = sensorData[Fields.lastseenindex];
-    const um03data = sensorData[Fields.um03index];
-    const um05data = sensorData[Fields.um05index];
-    const um1data = sensorData[Fields.um1index];
-    const um25data = sensorData[Fields.um25index];
-    const um5data = sensorData[Fields.um5index];
-    const um10data = sensorData[Fields.um10index];
+function injectSensorData(location, sensorData, sensorDataFields) {
+    const pm1data = sensorData[sensorDataFields.indexOf(Fields.pm1)];
+    const pm25data = sensorData[sensorDataFields.indexOf(Fields.pm25)];
+    const pm10data = sensorData[sensorDataFields.indexOf(Fields.pm10)];
+    const pm25_cf_1data = sensorData[sensorDataFields.indexOf(Fields.pm25cf)];
+    const humiditydata = sensorData[sensorDataFields.indexOf(Fields.humidity)];
+    const lastseendata = sensorData[sensorDataFields.indexOf(Fields.lastseen)];
+    const um03data = sensorData[sensorDataFields.indexOf(Fields.um03)];
+    const um05data = sensorData[sensorDataFields.indexOf(Fields.um05)];
+    const um1data = sensorData[sensorDataFields.indexOf(Fields.um1)];
+    const um25data = sensorData[sensorDataFields.indexOf(Fields.um25)];
+    const um5data = sensorData[sensorDataFields.indexOf(Fields.um5)];
+    const um10data = sensorData[sensorDataFields.indexOf(Fields.um10)];
 
     // DOM locations
     const docid = location + "aqi";
