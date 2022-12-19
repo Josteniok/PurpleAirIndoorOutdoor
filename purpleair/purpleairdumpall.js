@@ -1,8 +1,9 @@
 'use strict';
 
-const purpleAirApiReadKey = "ADB7BE2F-17CD-11EC-BAD6-42010A800017";
-const outdoorsensorid = "121389";
-const indoorsensorid = "125241";
+const purpleAirApiReadKey = process.env.API_READ_KEY || "";
+const outdoorsensorindex = process.env.OUTDOOR_SENSOR_ID || "";
+const indoorsensorindex = process.env.INDOOR_SENSOR_INDEX || "";
+
 getDetails(indoorsensorid, 'indoor');
 getDetails(outdoorsensorid, 'outdoor');
 
