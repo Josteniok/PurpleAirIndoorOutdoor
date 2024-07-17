@@ -1,5 +1,8 @@
 'use strict';
 
+// See https://www.airnow.gov/sites/default/files/2020-05/aqi-technical-assistance-document-sept2018.pdf
+// for AQI calculation specifics.
+
 const purpleAirApiReadKey = "ADB7BE2F-17CD-11EC-BAD6-42010A800017";
 const outdoorsensorindex = "121389";
 const indoorsensorindex = "125241";
@@ -164,17 +167,17 @@ function calcAQI(pm25) {
 function getBGColorForAQI(aqi) {
     switch (true) {
         case (aqi <= 50):
-            return 'green';
+            return 'rgb(0,228,0)';
         case (aqi > 50 && aqi <= 100):
-            return 'yellow';
+            return 'rgb(255,255,0)';
         case (aqi > 100 && aqi <= 150):
-            return 'orange';
+            return 'rgb(255,126,0)';
         case (aqi > 150 && aqi <= 200):
-            return 'red';
+            return 'rgb(255,0,0)';
         case (aqi > 200 && aqi <= 300):
-            return 'purple';
+            return 'rgb(143,63,151)';
         case (aqi > 300):
-            return 'maroon';
+            return 'rgb(126,0,35)';
         default:
             return 'green';
     }
