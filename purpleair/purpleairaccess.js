@@ -117,16 +117,16 @@ function formattedTime(unixtime) {
 }
 
 function calcAQI(pm25) {
-    let bphi = 12.0;
+    let bphi = 9.0;
     let bplo = 0.0;
     let aqhi = 50;
     let aqlo = 0;
     switch (true) {
-        case (pm25 <= 12.0):
+        case (pm25 <= 9.0):
             break;
-        case (pm25 > 12.0 && pm25 <=35.4):
+        case (pm25 > 9.0 && pm25 <=35.4):
             bphi = 35.4;
-            bplo = 12.1;
+            bplo = 9.1;
             aqhi = 100;
             aqlo = 51;
             break;
@@ -136,29 +136,23 @@ function calcAQI(pm25) {
             aqhi = 150;
             aqlo = 101;
             break;
-        case (pm25 > 55.4 && pm25 <=150.4):
-            bphi = 150.4;
+        case (pm25 > 55.4 && pm25 <=125.4):
+            bphi = 125.4;
             bplo = 55.5;
             aqhi = 200;
             aqlo = 151;
             break;
-        case (pm25 > 150.4 && pm25 <= 250.4):
-            bphi = 250.4;
-            bplo = 150.5;
+        case (pm25 > 125.4 && pm25 <= 225.4):
+            bphi = 225.4;
+            bplo = 125.5;
             aqhi = 300;
             aqlo = 201;
             break;
-        case (pm25 > 250.4 && pm25 <= 350.4):
-            bphi = 350.4;
-            bplo = 250.5;
-            aqhi = 400;
-            aqlo = 301;
-            break;
-        case (pm25 > 350.4 && pm25 <= 500.4):
-            bphi = 500.4;
-            bplo = 350.5;
+        case (pm25 > 225.4):
+            bphi = 500.0;
+            bplo = 225.5;
             aqhi = 500;
-            aqlo = 401;
+            aqlo = 301;
             break;
         default:
             break;
